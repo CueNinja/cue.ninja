@@ -1,0 +1,14 @@
+.idea/**
+.gradle/**
+build/**
+out/**
+bin/**
+*.iml
+.classpath
+.project
+.settings/**
+todoItems.json
+.DS_Store
+/.gradle/
+/build/
+*/node_modules/**
