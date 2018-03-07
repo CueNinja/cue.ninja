@@ -11,4 +11,6 @@ todoItems.json
 .DS_Store
 /.gradle/
 /build/
-*/node_modules/**
+*/.cache/**
+*error.log
+src/main/resources/ninja/cue/views/monaco/**

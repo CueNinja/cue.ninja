@@ -1,0 +1,10 @@
+{
+  "name": "cue.ninja",
+  "repository": "git@github.com:CueNinja/cue.ninja.git",
+  "license": "MIT",
+  "scripts": {
+    "postinstall": "cd websrc; yarn",
+    "start": "cd websrc; yarn start",
+    "dist": "cd websrc; yarn run dist"
+  }
+}

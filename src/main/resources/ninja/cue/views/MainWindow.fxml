@@ -3,13 +3,20 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import javafx.scene.web.WebView?>
+<?import ninja.cue.views.Monaco?>
+
 <BorderPane fx:id="mainBorderPane"
             xmlns="http://javafx.com/javafx/8.0.121"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="ninja.cue.views.MainWindow">
+    <top>
+        <MenuBar fx:id="mainMenu">
+            <Menu text="File">
+                <MenuItem text="Reset" onAction="#reset" />
+            </Menu>
+        </MenuBar>
+    </top>
     <center>
-        <WebView fx:id="" />
-
+        <Monaco fx:id="monaco" />
     </center>
 </BorderPane>
