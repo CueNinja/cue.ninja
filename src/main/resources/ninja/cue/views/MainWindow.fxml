@@ -17,6 +17,6 @@
         </MenuBar>
     </top>
     <center>
-        <Monaco fx:id="monaco" />
+        <Monaco fx:id="monaco" content="-- Type code here" />
     </center>
 </BorderPane>

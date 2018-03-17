@@ -5,9 +5,10 @@ import MonacoEditor from './monaco';
 class App extends React.Component {
  constructor(props) {
    super(props);
+   const content = window.javafx?.getContent?.()
    this.state = {
-     content: '// type your code...',
-   }
+     content: content?.length > 0 ? content : '// type your code...'
+   };
    window.updateContent = ::this.updateContent
  }
  editorDidMount(editor, monaco) {
