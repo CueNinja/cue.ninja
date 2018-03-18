@@ -6,8 +6,10 @@ class App extends React.Component {
  constructor(props) {
    super(props);
    const content = window.javafx?.getContent?.()
+   const language = window.javafx?.getLanguage?.()
    this.state = {
-     content: content?.length > 0 ? content : '// type your code...'
+     content: content?.length > 0 ? content : '// type your code...',
+     language
    };
    window.updateContent = ::this.updateContent
  }
@@ -27,7 +29,7 @@ class App extends React.Component {
    };
    return (
      <MonacoEditor
-       options={{language:'sql'}}
+       options={{language:this.state?.language}}
        onChange={::this.onChange}
        content={this.state?.content}
      />

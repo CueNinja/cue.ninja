@@ -17,4 +17,8 @@ class MainWindow {
         monaco.setContent("-- Type code here!")
     }
 
+    fun debugger(actionEvent: ActionEvent) {
+        monaco.startDebugger()
+    }
+
 }

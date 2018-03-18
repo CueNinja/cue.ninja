@@ -19,6 +19,7 @@ dependencies {
     compile("javax.json:javax.json-api:1.1.2")
     compile("de.jensd:fontawesomefx-commons:9.1.2")
     compile("de.jensd:shichimifx:1.2.2")
+    compile("com.vladsch.javafx-webview-debugger:javafx-webview-debugger:0.5.6")
 }
 
 java {

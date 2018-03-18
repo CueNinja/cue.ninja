@@ -13,10 +13,11 @@
         <MenuBar fx:id="mainMenu">
             <Menu text="File">
                 <MenuItem text="Reset" onAction="#reset" />
+                <MenuItem text="Debugger" onAction="#debugger" />
             </Menu>
         </MenuBar>
     </top>
     <center>
-        <Monaco fx:id="monaco" content="-- Type code here" />
+        <Monaco fx:id="monaco" content="-- Type code here" language="sql" />
     </center>
 </BorderPane>
