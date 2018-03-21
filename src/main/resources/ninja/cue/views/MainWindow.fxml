@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import ninja.cue.views.Monaco?>
+<?import ninja.cue.monaco.Monaco?>
 
 <BorderPane fx:id="mainBorderPane"
             xmlns="http://javafx.com/javafx/8.0.121"

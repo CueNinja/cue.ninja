@@ -3,7 +3,7 @@ package ninja.cue.views
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.control.MenuBar
-import javafx.scene.web.WebView
+import ninja.cue.monaco.Monaco
 
 class MainWindow {
     @FXML private var monaco = Monaco()
@@ -13,12 +13,12 @@ class MainWindow {
         mainMenu.useSystemMenuBarProperty().set(true)
     }
 
-    fun reset(event: ActionEvent) {
+    @FXML fun reset(event: ActionEvent) {
         monaco.setContent("-- Type code here!")
     }
 
-    fun debugger(actionEvent: ActionEvent) {
-        monaco.startDebugger()
+    @FXML fun debugger(actionEvent: ActionEvent) {
+        //monaco.startDebugger()
     }
 
 }

@@ -9,6 +9,9 @@ application {
 repositories {
     mavenCentral()
     jcenter()
+    maven {
+        setUrl("https://maven.cue.ninja")
+    }
 }
 
 dependencies {
@@ -19,36 +22,9 @@ dependencies {
     compile("javax.json:javax.json-api:1.1.2")
     compile("de.jensd:fontawesomefx-commons:9.1.2")
     compile("de.jensd:shichimifx:1.2.2")
-    compile("com.vladsch.javafx-webview-debugger:javafx-webview-debugger:0.5.6")
+    compile("ninja.cue:monaco.editor:0.1-SNAPSHOT")
+
+    compile("org.postgresql:postgresql:42.2.1")
+    //--------------------- Devtools ---------------------
+    compile("ninja.cue:javafx-webview-debugger:0.6.0-SNAPSHOT")
 }
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_9
-    targetCompatibility = JavaVersion.VERSION_1_9
-}
-
-tasks {
-    "yarn"(Exec::class) {
-        inputs.file("package.json").withPathSensitivity(PathSensitivity.RELATIVE)
-        inputs.file("websrc/package.json").withPathSensitivity(PathSensitivity.RELATIVE)
-        inputs.file("websrc/yarn.lock").withPathSensitivity(PathSensitivity.RELATIVE)
-        outputs.dir("websrc/node_modules")
-        commandLine("yarn")
-    }
-    "webpack"(Exec::class) {
-        inputs.file("package.json").withPathSensitivity(PathSensitivity.RELATIVE)
-        inputs.file("websrc/package.json").withPathSensitivity(PathSensitivity.RELATIVE)
-        inputs.dir("websrc").withPathSensitivity(PathSensitivity.RELATIVE)
-        outputs.dir("src/main/resources/ninja/cue/views/monaco")
-        outputs.cacheIf { true }
-        dependsOn("yarn")
-        commandLine("yarn", "run", "dist")
-    }
-    "build-app" {
-        dependsOn("webpack")
-        dependsOn("distZip")
-    }
-}
-
-defaultTasks("webpack", "run")
-
