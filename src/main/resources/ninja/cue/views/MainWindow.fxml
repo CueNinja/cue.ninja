@@ -1,23 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import ninja.cue.monaco.Monaco?>
 
-<BorderPane fx:id="mainBorderPane"
-            xmlns="http://javafx.com/javafx/8.0.121"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="ninja.cue.views.MainWindow">
+<BorderPane fx:id="mainBorderPane" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ninja.cue.views.MainWindow">
     <top>
-        <MenuBar fx:id="mainMenu">
-            <Menu text="File">
-                <MenuItem text="Reset" onAction="#reset" />
-                <MenuItem text="Debugger" onAction="#debugger" />
-            </Menu>
-        </MenuBar>
+        <VBox>
+            <MenuBar fx:id="mainMenu">
+                <Menu text="File">
+                    <MenuItem onAction="#reset" text="Reset" />
+                    <MenuItem onAction="#debugger" text="Debugger" />
+                </Menu>
+            </MenuBar>
+            <ToolBar>
+                <HBox>
+                    <Button>
+                        <graphic>
+                            <FontAwesomeIconView glyphName="SAVE" />
+                        </graphic>
+                        <tooltip>
+                           <Tooltip text="Save" />
+                        </tooltip>
+                    </Button>
+                    <Button onAction="#executeQuery">
+                        <graphic>
+                            <FontAwesomeIconView glyphName="BOLT" />
+                        </graphic>
+                        <tooltip>
+                            <Tooltip text="Execute" />
+                        </tooltip>
+                    </Button>
+                </HBox>
+            </ToolBar>
+        </VBox>
     </top>
     <center>
-        <Monaco fx:id="monaco" content="-- Type code here" language="sql" />
+        <SplitPane orientation="VERTICAL">
+            <Monaco fx:id="monaco" content="select * from genres;" language="sql" />
+            <TableView fx:id="table" />
+        </SplitPane>
     </center>
 </BorderPane>
