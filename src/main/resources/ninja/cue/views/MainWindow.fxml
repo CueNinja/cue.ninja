@@ -8,20 +8,35 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+
 <?import ninja.cue.monaco.Monaco?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 
 <BorderPane fx:id="mainBorderPane" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ninja.cue.views.MainWindow">
     <top>
         <VBox>
             <MenuBar fx:id="mainMenu">
                 <Menu text="File">
-                    <MenuItem onAction="#reset" text="Reset" />
-                    <MenuItem onAction="#debugger" text="Debugger" />
+                    <MenuItem onAction="#newTab" text="New Tab">
+                        <accelerator>
+                            <KeyCodeCombination alt="UP" code="T" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
+                        </accelerator></MenuItem>
+                    <MenuItem onAction="#closeTab" text="Close Tab">
+                        <accelerator>
+                            <KeyCodeCombination alt="UP" code="W" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
+                        </accelerator></MenuItem>
+                </Menu>
+                <Menu text="Database">
+                    <MenuItem onAction="#executeQuery" text="Execute">
+                  <accelerator>
+                     <KeyCodeCombination alt="UP" code="ENTER" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
+                  </accelerator></MenuItem>
+
                 </Menu>
             </MenuBar>
             <ToolBar>
@@ -47,7 +62,7 @@
         </VBox>
     </top>
     <center>
-        <SplitPane orientation="VERTICAL">
+        <SplitPane dividerPositions="0.5" orientation="VERTICAL">
             <Monaco fx:id="monaco" content="select * from genres;" language="sql" />
             <TableView fx:id="table" />
         </SplitPane>

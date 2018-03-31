@@ -7,6 +7,7 @@ import javafx.scene.control.MenuBar
 import javafx.scene.control.TableColumn
 import javafx.scene.control.TableView
 import javafx.util.Callback
+import ninja.cue.JdbcQuery
 import java.sql.Connection
 import java.sql.DriverManager
 
@@ -24,46 +25,28 @@ class MainWindow {
         mainMenu.useSystemMenuBarProperty().set(true)
     }
 
-    @FXML fun reset(event: ActionEvent) {
-        monaco.setContent("-- Type code here!")
-    }
+    @FXML fun executeQuery(event: ActionEvent) {
+        val queryText = monaco.getContent()
+        val query = JdbcQuery(queryText)
+        val results = query.execute()
 
-    @FXML fun debugger(actionEvent: ActionEvent) {
-        //monaco.startDebugger()
-    }
-
-    fun makeConnection(): Connection {
-        if(connection == null) {
-            val url = "jdbc:postgresql://localhost/rock?user=usr1"
-            connection = DriverManager.getConnection(url)
-        }
-        return connection!!
-    }
-
-    fun executeQuery(event: ActionEvent) {
-        val query = monaco.getContent()
-        val stmt = makeConnection().createStatement()
-        val results: ResultSet = stmt.executeQuery(query)
-
-        val columns = Array<String>(results.metaData.columnCount) {
-            results.metaData.getColumnName(it + 1)
-        }
-
-        table.columns.setAll(columns.map {
+        table.columns.setAll(results.columns.map {
             val cell = TableColumn<Array<String>, String>(it)
-            val index = columns.indexOf(it)
+            val index = results.columns.indexOf(it)
             cell.cellValueFactory = Callback { SimpleStringProperty(it.value[index]) }
             cell
         })
 
         table.items.clear()
+        table.items.addAll(results.rows)
+    }
 
-        while(results.next()) {
-            val row = Array<String>(columns.size) {
-                results.getString(it + 1)
-            }
-            table.items.add(row)
-        }
+    @FXML fun newTab(event: ActionEvent) {
+
+    }
+
+    @FXML fun closeTab(event: ActionEvent) {
+
     }
 
 }
