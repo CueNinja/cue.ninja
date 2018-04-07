@@ -5,31 +5,39 @@ import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.stage.Stage
+import javafx.scene.control.SeparatorMenuItem
+
+import de.jensd.shichimifx.utils.OS
+import de.codecentric.centerdevice.MenuToolkit
 
 import ninja.cue.views.MainWindow
-import java.awt.Desktop
-import java.awt.desktop.*
 
 class Main : Application() {
-    private val root: Parent = FXMLLoader.load(MainWindow::class.java.getResource("MainWindow.fxml"))
+    private val loader = FXMLLoader()
+    private val root: Parent = loader.load(
+            MainWindow::class.java.getResource("MainWindow.fxml").openStream())
+    private val controller = loader.getController() as MainWindow
     private val scene = Scene(root, 900.0, 500.0)
     private val css = javaClass.getResource("style.css").toExternalForm()
     override fun start(primaryStage: Stage?) {
-        if(Desktop.isDesktopSupported()) {
-            val desktop = Desktop.getDesktop()
-            if(desktop.isSupported(Desktop.Action.APP_PREFERENCES)) {
-                desktop.setPreferencesHandler { this.handlePreferences(it) }
-            }
+        if(OS.isMac()) {
+            val mainMenu = controller.getMainMenu()
+            val toolkit = MenuToolkit.toolkit()
+            val appMenu = toolkit.createDefaultApplicationMenu("Cue.Ninja")
+
+            appMenu.items.add(2, controller.preferencesMenuItem())
+            appMenu.items.add(3, SeparatorMenuItem())
+
+            mainMenu.menus.add(0, appMenu)
+
+            toolkit.setGlobalMenuBar(mainMenu)
+            toolkit.setApplicationMenu(appMenu)
         }
 
         primaryStage?.title = "Cue.Ninja"
         scene.stylesheets.add(css)
         primaryStage?.scene = scene
         primaryStage?.show()
-    }
-
-    private fun handlePreferences(event: PreferencesEvent) {
-        System.out.println("PREFRENCES")
     }
 
     companion object {

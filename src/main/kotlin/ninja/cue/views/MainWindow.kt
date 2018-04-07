@@ -3,27 +3,22 @@ package ninja.cue.views
 import javafx.beans.property.SimpleStringProperty
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
-import javafx.scene.control.MenuBar
-import javafx.scene.control.TableColumn
-import javafx.scene.control.TableView
+import javafx.scene.layout.VBox
 import javafx.util.Callback
-import ninja.cue.JdbcQuery
-import java.sql.Connection
-import java.sql.DriverManager
 
+import de.jensd.shichimifx.utils.OS
+import javafx.scene.control.*
 import ninja.cue.monaco.Monaco
-import java.sql.ResultSet
+
+import ninja.cue.JdbcQuery
 
 class MainWindow {
     @FXML private var monaco = Monaco()
     @FXML private var mainMenu = MenuBar()
     @FXML private var table = TableView<Array<String>>()
-
-    private var connection: Connection? = null
-
-    fun initialize() {
-        mainMenu.useSystemMenuBarProperty().set(true)
-    }
+    @FXML private var vbox = VBox()
+    @FXML private var preferencesSeparator = SeparatorMenuItem()
+    @FXML private var preferencesMenuItem = MenuItem()
 
     @FXML fun executeQuery(event: ActionEvent) {
         val queryText = monaco.getContent()
@@ -47,6 +42,20 @@ class MainWindow {
 
     @FXML fun closeTab(event: ActionEvent) {
 
+    }
+
+    @FXML fun showPreferences(events: ActionEvent) {
+
+    }
+
+    fun getMainMenu(): MenuBar {
+        vbox.children.remove(mainMenu)
+        return mainMenu
+    }
+
+    fun preferencesMenuItem(): MenuItem {
+        mainMenu.menus[0].items.removeAll(preferencesSeparator, preferencesMenuItem)
+        return preferencesMenuItem
     }
 
 }

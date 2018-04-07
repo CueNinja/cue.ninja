@@ -17,9 +17,10 @@
 <?import ninja.cue.monaco.Monaco?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 
+<?import javafx.scene.control.SeparatorMenuItem?>
 <BorderPane fx:id="mainBorderPane" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ninja.cue.views.MainWindow">
     <top>
-        <VBox>
+        <VBox fx:id="vbox">
             <MenuBar fx:id="mainMenu">
                 <Menu text="File">
                     <MenuItem onAction="#newTab" text="New Tab">
@@ -30,6 +31,12 @@
                         <accelerator>
                             <KeyCodeCombination alt="UP" code="W" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
                         </accelerator></MenuItem>
+                    <SeparatorMenuItem fx:id="preferencesSeparator"/>
+                    <MenuItem onAction="#showPreferences" text="Preferences" fx:id="preferencesMenuItem">
+                        <accelerator>
+                            <KeyCodeCombination alt="UP" code="COMMA" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
+                        </accelerator>
+                    </MenuItem>
                 </Menu>
                 <Menu text="Database">
                     <MenuItem onAction="#executeQuery" text="Execute">

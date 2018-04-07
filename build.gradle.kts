@@ -20,7 +20,7 @@ dependencies {
     compile("de.jensd:fontawesomefx-commons:9.1.2")
     compile("de.jensd:fontawesomefx-fontawesome:4.7.0-9.1.2")
     compile("javax.json:javax.json-api:1.1.2")
-//    compile("de.jensd:shichimifx:1.2.2")
+    compile("de.jensd:shichimifx:1.2.2")
     compile("ninja.cue:monaco.editor:0.2-SNAPSHOT")
 
     compile("org.postgresql:postgresql:42.2.1")
