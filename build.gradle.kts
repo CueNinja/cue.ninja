@@ -19,8 +19,9 @@ dependencies {
     compile("org.controlsfx:controlsfx:9.0.0")
     compile("de.jensd:fontawesomefx-commons:9.1.2")
     compile("de.jensd:fontawesomefx-fontawesome:4.7.0-9.1.2")
-    compile("javax.json:javax.json-api:1.1.2")
+    compile("org.glassfish:javax.json:1.1.2")
     compile("de.jensd:shichimifx:1.2.2")
+    compile("com.github.thomasnield:rxkotlinfx:2.2.2")
     compile("ninja.cue:monaco.editor:0.2-SNAPSHOT")
 
     compile("org.postgresql:postgresql:42.2.1")

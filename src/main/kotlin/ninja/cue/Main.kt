@@ -9,6 +9,7 @@ import javafx.scene.control.SeparatorMenuItem
 
 import de.jensd.shichimifx.utils.OS
 import de.codecentric.centerdevice.MenuToolkit
+import ninja.cue.persistance.DataManager
 
 import ninja.cue.views.MainWindow
 
@@ -33,6 +34,8 @@ class Main : Application() {
             toolkit.setGlobalMenuBar(mainMenu)
             toolkit.setApplicationMenu(appMenu)
         }
+
+        DataManager.instance.loadConfig()
 
         primaryStage?.title = "Cue.Ninja"
         scene.stylesheets.add(css)

@@ -1,8 +1,8 @@
-package ninja.cue
+package ninja.cue.jdbc
 
 import java.sql.ResultSet
 
-class JdbcResult(results: ResultSet) {
+class Result(results: ResultSet) {
     val columns = Array<String>(results.metaData.columnCount) {
         results.metaData.getColumnName(it + 1)
     }

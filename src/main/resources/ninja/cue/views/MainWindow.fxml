@@ -1,23 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.input.KeyCodeCombination?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-
 
 <?import ninja.cue.monaco.Monaco?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 
-<?import javafx.scene.control.SeparatorMenuItem?>
+<?import org.controlsfx.control.MasterDetailPane?>
 <BorderPane fx:id="mainBorderPane" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ninja.cue.views.MainWindow">
     <top>
         <VBox fx:id="vbox">
@@ -31,8 +21,8 @@
                         <accelerator>
                             <KeyCodeCombination alt="UP" code="W" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
                         </accelerator></MenuItem>
-                    <SeparatorMenuItem fx:id="preferencesSeparator"/>
-                    <MenuItem onAction="#showPreferences" text="Preferences" fx:id="preferencesMenuItem">
+                    <SeparatorMenuItem fx:id="preferencesSeparator" />
+                    <MenuItem fx:id="preferencesMenuItem" onAction="#showPreferences" text="Preferences">
                         <accelerator>
                             <KeyCodeCombination alt="UP" code="COMMA" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
                         </accelerator>
@@ -47,7 +37,7 @@
                 </Menu>
             </MenuBar>
             <ToolBar>
-                <HBox>
+                <HBox spacing="5.0">
                     <Button>
                         <graphic>
                             <FontAwesomeIconView glyphName="SAVE" />
@@ -69,9 +59,13 @@
         </VBox>
     </top>
     <center>
-        <SplitPane dividerPositions="0.5" orientation="VERTICAL">
-            <Monaco fx:id="monaco" content="select * from genres;" language="sql" />
-            <TableView fx:id="table" />
-        </SplitPane>
+        <MasterDetailPane detailSide="BOTTOM" showDetailNode="false" fx:id="masterDetail">
+            <masterNode>
+                <Monaco fx:id="monaco" content="select * from genres;" language="sql" />
+            </masterNode>
+            <detailNode>
+                <TableView fx:id="table" />
+            </detailNode>
+        </MasterDetailPane>
     </center>
 </BorderPane>

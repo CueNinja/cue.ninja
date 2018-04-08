@@ -1,9 +1,8 @@
-package ninja.cue
+package ninja.cue.jdbc
 
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.ResultSet
-import java.sql.Statement
 
 class ConnectionManager() {
     private object Holder {
