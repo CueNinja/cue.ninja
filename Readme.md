@@ -1,5 +1,6 @@
 # cue.ninja
 
+![screen shot](content/screenshot.dark.png)
 ![screen shot](content/screenshot.png)
 
 cue.ninja will be a cross plaform data query tool.  
@@ -10,8 +11,6 @@ So far all you can do is edit a sql statment and query a specific hard coded loc
 ## Building
 
 ### Requirements:
-* [NodeJS](https://nodejs.org/en/) (9.x)
-* [yarn](https://yarnpkg.com/en/)
 * [Java 9](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 
 ### Run

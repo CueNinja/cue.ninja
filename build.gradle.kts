@@ -22,7 +22,7 @@ dependencies {
     compile("org.glassfish:javax.json:1.1.2")
     compile("de.jensd:shichimifx:1.2.2")
     compile("com.github.thomasnield:rxkotlinfx:2.2.2")
-    compile("ninja.cue:monaco.editor:0.2-SNAPSHOT")
+    compile("ninja.cue:monaco.editor:0.3-SNAPSHOT")
 
     compile("org.postgresql:postgresql:42.2.1")
     compile("de.codecentric.centerdevice:centerdevice-nsmenufx:2.1.6")

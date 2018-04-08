@@ -9,6 +9,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.Tooltip?>
@@ -20,117 +22,157 @@
 <?import javafx.scene.layout.VBox?>
 <?import org.controlsfx.control.ToggleSwitch?>
 
-<BorderPane fx:id="rootBorderPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ninja.cue.views.PreferencesWindow">
-   <left>
-       <VBox prefHeight="400.0" prefWidth="177.0">
-           <ListView VBox.vgrow="ALWAYS" fx:id="connectionList" />
-           <HBox spacing="5.0">
-               <Button onAction="#addItem">
-                   <graphic>
-                       <FontAwesomeIconView glyphName="PLUS" />
-                   </graphic>
-                   <tooltip>
-                       <Tooltip text="Add" />
-                   </tooltip>
-               </Button>
-               <Button onAction="#removeItem">
-                   <graphic>
-                       <FontAwesomeIconView glyphName="MINUS" />
-                   </graphic>
-                   <tooltip>
-                       <Tooltip text="Remove" />
-                   </tooltip>
-               </Button>
-            <padding>
-               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-            </padding>
-           </HBox>
-       </VBox>
-   </left>
-   <center>
-      <GridPane hgap="5.0" vgap="10.0">
-         <children>
-            <Label text="Connection Name" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <TextField fx:id="connectionName" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-            <Label text="Connection URI" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-            <TextField fx:id="connectionUri" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label text="Use SSH Tunnel" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-            <ToggleSwitch fx:id="sshTunnelToggle" onMouseClicked="#toggleSshTunnel" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TitledPane fx:id="sshTunnelPane" disable="true" expanded="false" text="Tunnel Settings" GridPane.columnSpan="2" GridPane.rowIndex="3">
-              <content>
-                  <GridPane hgap="5.0" vgap="10.0">
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </padding>
+
+<TabPane xmlns="http://javafx.com/javafx/10" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ninja.cue.views.PreferencesWindow">
+   <tabs>
+      <Tab text="General">
+         <content>
+            <BorderPane prefHeight="200.0" prefWidth="200.0">
+               <center>
+                  <GridPane BorderPane.alignment="CENTER">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
                      <children>
-                        <Label text="Host" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                        <TextField fx:id="tunnelHost" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                        <Label layoutX="15.0" layoutY="15.0" text="Port" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                        <TextField fx:id="tunnelPort" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <Label text="Username" GridPane.rowIndex="2" />
-                        <TextField fx:id="tunnelUsername" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Label text="Password" GridPane.rowIndex="4" />
-                        <PasswordField fx:id="tunnelPassword" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <Label text="Auth Method" GridPane.rowIndex="3" />
-                        <ChoiceBox fx:id="tunnelAuthType" onAction="#tunnelAuthTypeChanged" prefWidth="272.0" value="Password" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <Label text="Theme" />
+                        <ChoiceBox fx:id="theme" prefWidth="150.0" GridPane.columnIndex="1" value="Light" onAction="#themeChange">
                             <items>
                                 <FXCollections fx:factory="observableArrayList">
-                                    <String fx:value="Password" />
-                                    <String fx:value="Private Key" />
+                                    <String fx:value="Light" />
+                                    <String fx:value="Dark" />
                                 </FXCollections>
                             </items>
                         </ChoiceBox>
-                        <Label disable="true" text="Key File" GridPane.rowIndex="5" fx:id="tunnelKeyPathLabel" />
-                        <HBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                            <TextField fx:id="tunnelKeyPath" disable="true" HBox.hgrow="ALWAYS" />
-                            <Button disable="true" onAction="#tunnelFileOpen" fx:id="tunnelKeyPathButton">
-                                <graphic>
-                                    <FontAwesomeIconView glyphName="FOLDER_OPEN" />
-                                </graphic>
-                                <tooltip>
-                                    <Tooltip text="Open" />
-                                </tooltip>
-                            </Button>
-                        </HBox>
+                     </children>
+                  </GridPane>
+               </center>
+            </BorderPane>
+         </content>
+      </Tab>
+      <Tab closable="false" text="Connections">
+         <content>
+            <BorderPane fx:id="rootBorderPane" prefHeight="400.0" prefWidth="600.0">
+               <left>
+                   <VBox prefHeight="400.0" prefWidth="177.0">
+                       <ListView fx:id="connectionList" VBox.vgrow="ALWAYS" />
+                       <HBox spacing="5.0">
+                           <Button onAction="#addItem">
+                               <graphic>
+                                   <FontAwesomeIconView glyphName="PLUS" />
+                               </graphic>
+                               <tooltip>
+                                   <Tooltip text="Add" />
+                               </tooltip>
+                           </Button>
+                           <Button onAction="#removeItem">
+                               <graphic>
+                                   <FontAwesomeIconView glyphName="MINUS" />
+                               </graphic>
+                               <tooltip>
+                                   <Tooltip text="Remove" />
+                               </tooltip>
+                           </Button>
+                        <padding>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                       </HBox>
+                   </VBox>
+               </left>
+               <center>
+                  <GridPane hgap="5.0" vgap="10.0">
+                     <children>
+                        <Label text="Connection Name" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <TextField fx:id="connectionName" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        <Label text="Connection URI" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <TextField fx:id="connectionUri" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label text="Use SSH Tunnel" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                        <ToggleSwitch fx:id="sshTunnelToggle" onMouseClicked="#toggleSshTunnel" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TitledPane fx:id="sshTunnelPane" disable="true" expanded="false" text="Tunnel Settings" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                          <content>
+                              <GridPane hgap="5.0" vgap="10.0">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                                 <children>
+                                    <Label text="Host" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                    <TextField fx:id="tunnelHost" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                    <Label layoutX="15.0" layoutY="15.0" text="Port" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                    <TextField fx:id="tunnelPort" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label text="Username" GridPane.rowIndex="2" />
+                                    <TextField fx:id="tunnelUsername" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label text="Password" GridPane.rowIndex="4" />
+                                    <PasswordField fx:id="tunnelPassword" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <Label text="Auth Method" GridPane.rowIndex="3" />
+                                    <ChoiceBox fx:id="tunnelAuthType" onAction="#tunnelAuthTypeChanged" prefWidth="272.0" value="Password" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                        <items>
+                                            <FXCollections fx:factory="observableArrayList">
+                                                <String fx:value="Password" />
+                                                <String fx:value="Private Key" />
+                                            </FXCollections>
+                                        </items>
+                                    </ChoiceBox>
+                                    <Label fx:id="tunnelKeyPathLabel" disable="true" text="Key File" GridPane.rowIndex="5" />
+                                    <HBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                        <TextField fx:id="tunnelKeyPath" disable="true" HBox.hgrow="ALWAYS" />
+                                        <Button fx:id="tunnelKeyPathButton" disable="true" onAction="#tunnelFileOpen">
+                                            <graphic>
+                                                <FontAwesomeIconView glyphName="FOLDER_OPEN" />
+                                            </graphic>
+                                            <tooltip>
+                                                <Tooltip text="Open" />
+                                            </tooltip>
+                                        </Button>
+                                    </HBox>
+                                 </children>
+                                 <columnConstraints>
+                                    <ColumnConstraints maxWidth="120.0" minWidth="100.0" prefWidth="120.0" />
+                                    <ColumnConstraints hgrow="ALWAYS" maxWidth="353.0" minWidth="272.0" prefWidth="279.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints />
+                                    <RowConstraints />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                 </rowConstraints>
+                              </GridPane>
+                          </content>
+                        </TitledPane>
+                        <Button onAction="#saveItems" GridPane.columnIndex="0" GridPane.rowIndex="4">
+                            <text>Save</text>
+                            <graphic>
+                                <FontAwesomeIconView glyphName="SAVE" />
+                            </graphic>
+                            <tooltip>
+                                <Tooltip text="Save" />
+                            </tooltip>
+                        </Button>
                      </children>
                      <columnConstraints>
                         <ColumnConstraints maxWidth="120.0" minWidth="100.0" prefWidth="120.0" />
-                        <ColumnConstraints hgrow="ALWAYS" maxWidth="353.0" minWidth="272.0" prefWidth="279.0" />
+                        <ColumnConstraints hgrow="ALWAYS" />
                      </columnConstraints>
                      <rowConstraints>
                         <RowConstraints />
                         <RowConstraints />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
                      </rowConstraints>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
                   </GridPane>
-              </content>
-            </TitledPane>
-            <Button onAction="#saveItems" GridPane.columnIndex="0" GridPane.rowIndex="4">
-                <text>Save</text>
-                <graphic>
-                    <FontAwesomeIconView glyphName="SAVE" />
-                </graphic>
-                <tooltip>
-                    <Tooltip text="Save" />
-                </tooltip>
-            </Button>
-         </children>
-         <columnConstraints>
-            <ColumnConstraints maxWidth="120.0" minWidth="100.0" prefWidth="120.0" />
-            <ColumnConstraints hgrow="ALWAYS" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-         </rowConstraints>
-         <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </padding>
-      </GridPane>
-   </center>
-</BorderPane>
+               </center>
+            </BorderPane>
+         </content>
+      </Tab>
+   </tabs>
+</TabPane>

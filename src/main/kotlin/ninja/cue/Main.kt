@@ -20,6 +20,7 @@ class Main : Application() {
     private val controller = loader.getController() as MainWindow
     private val scene = Scene(root, 900.0, 500.0)
     private val css = javaClass.getResource("style.css").toExternalForm()
+    private val darkCss = javaClass.getResource("dark.css").toExternalForm()
     override fun start(primaryStage: Stage?) {
         if(OS.isMac()) {
             val mainMenu = controller.getMainMenu()
@@ -39,6 +40,9 @@ class Main : Application() {
 
         primaryStage?.title = "Cue.Ninja"
         scene.stylesheets.add(css)
+        if(DataManager.instance.theme.get() == "dark") {
+            scene.stylesheets.add(darkCss)
+        }
         primaryStage?.scene = scene
         primaryStage?.show()
     }

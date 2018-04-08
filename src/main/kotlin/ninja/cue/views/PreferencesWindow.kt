@@ -14,8 +14,8 @@ import org.controlsfx.control.ToggleSwitch
 import ninja.cue.jdbc.ConnectionDefinition
 import ninja.cue.jdbc.TunnelDefinition
 import ninja.cue.persistance.DataManager
-import javax.json.Json
-import javax.swing.Action
+import java.util.*
+import javax.xml.crypto.Data
 
 class PreferencesWindow {
     private val connections = DataManager.instance.connections
@@ -36,6 +36,8 @@ class PreferencesWindow {
     @FXML private var tunnelKeyPathLabel = Label()
     @FXML private var tunnelKeyPathButton = Button()
 
+    @FXML private var theme = ChoiceBox<String>()
+
     fun initialize() {
         connectionList.items = connections
 
@@ -44,6 +46,9 @@ class PreferencesWindow {
         connectionList.selectionModel.selectionMode = SelectionMode.SINGLE
         connectionList.selectionModel.selectedItemProperty().addListener(this::connectionChange)
         connectionList.selectionModel.select(0)
+
+        val themeStr = DataManager.instance.theme.get()
+        theme.value = "${themeStr.get(0).toUpperCase()}${themeStr.substring(1)}"
     }
 
     private class ConnectionDefinitionListCell : ListCell<ConnectionDefinition>() {
@@ -166,6 +171,10 @@ class PreferencesWindow {
         if(connections.size == 0) {
             addItem(ActionEvent())
         }
+    }
+
+    @FXML fun themeChange(event: ActionEvent) {
+        DataManager.instance.theme.set(theme.value.toLowerCase())
     }
 
 }
