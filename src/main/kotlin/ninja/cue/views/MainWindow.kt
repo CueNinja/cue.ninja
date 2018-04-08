@@ -16,37 +16,35 @@ import ninja.cue.jdbc.Query
 
 class MainWindow {
     @FXML private var mainBorderPane = BorderPane()
-    @FXML private var monaco = Monaco()
     @FXML private var mainMenu = MenuBar()
-    @FXML private var table = TableView<Array<String>>()
     @FXML private var vbox = VBox()
     @FXML private var preferencesSeparator = SeparatorMenuItem()
     @FXML private var preferencesMenuItem = MenuItem()
-    @FXML private var masterDetail = MasterDetailPane()
+    @FXML private var tabs = TabPane()
+    @FXML private var controllers = ArrayList<MainQueryEditor>()
+    @FXML private var nextTabMenu = MenuItem()
+    @FXML private var previousTabMenu = MenuItem()
+
+    fun initialize() {
+        newTab(ActionEvent())
+    }
 
     @FXML fun executeQuery(event: ActionEvent) {
-        val queryText = monaco.getContent()
-        val query = Query(queryText)
-        val results = query.execute()
-
-        table.columns.setAll(results.columns.map {
-            val cell = TableColumn<Array<String>, String>(it)
-            val index = results.columns.indexOf(it)
-            cell.cellValueFactory = Callback { SimpleStringProperty(it.value[index]) }
-            cell
-        })
-
-        table.items.clear()
-        table.items.addAll(results.rows)
-        masterDetail.isShowDetailNode = true
+        val tabIndex = tabs.selectionModel.selectedIndex
+        controllers[tabIndex].executeQuery()
     }
 
     @FXML fun newTab(event: ActionEvent) {
-
+        tabs.tabs.add(buildTab())
+        tabs.selectionModel.select(tabs.tabs.size - 1)
+        updateMenus()
     }
 
     @FXML fun closeTab(event: ActionEvent) {
-
+        val index = tabs.selectionModel.selectedIndex
+        tabs.tabs.removeAt(index)
+        controllers.removeAt(index)
+        updateMenus()
     }
 
     @FXML fun showPreferences(events: ActionEvent) {
@@ -59,6 +57,26 @@ class MainWindow {
         dialog.show()
     }
 
+    @FXML fun previousTab(event: ActionEvent) {
+    }
+
+    @FXML fun nextTab(event: ActionEvent) {
+    }
+
+    private fun buildTab(): Tab {
+        val tab = Tab()
+        tab.text = "Query Localhost"
+        val loader = FXMLLoader(javaClass.getResource("MainQueryEditor.fxml"))
+        tab.content = loader.load()
+        controllers.add(loader.getController())
+        return tab
+    }
+
+    fun updateMenus() {
+        nextTabMenu.disableProperty().set(tabs.tabs.size < 2)
+        previousTabMenu.disableProperty().set(tabs.tabs.size < 2)
+    }
+
     fun getMainMenu(): MenuBar {
         vbox.children.remove(mainMenu)
         return mainMenu
@@ -68,5 +86,4 @@ class MainWindow {
         mainMenu.menus[0].items.removeAll(preferencesSeparator, preferencesMenuItem)
         return preferencesMenuItem
     }
-
 }

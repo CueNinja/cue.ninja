@@ -158,7 +158,7 @@ class PreferencesWindow {
         sshTunnelToggle.isSelected = false
         tunnelAuthTypeChanged(ActionEvent())
         toggleSshTunnel()
-        connectionList.selectionModel.select(null)
+        connectionList.selectionModel.clearSelection()
     }
 
     @FXML fun removeItem(event: ActionEvent) {

@@ -21,6 +21,16 @@
                         <accelerator>
                             <KeyCodeCombination alt="UP" code="W" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
                         </accelerator></MenuItem>
+                    <MenuItem fx:id="nextTabMenu" onAction="#nextTab" text="Next Tab" disable="true">
+                        <accelerator>
+                            <KeyCodeCombination alt="UP" code="TAB" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                        </accelerator>
+                    </MenuItem>
+                    <MenuItem fx:id="previousTabMenu" onAction="#previousTab" text="Previous Tab" disable="true">
+                        <accelerator>
+                            <KeyCodeCombination alt="UP" code="TAB" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+                        </accelerator>
+                    </MenuItem>
                     <SeparatorMenuItem fx:id="preferencesSeparator" />
                     <MenuItem fx:id="preferencesMenuItem" onAction="#showPreferences" text="Preferences">
                         <accelerator>
@@ -59,13 +69,6 @@
         </VBox>
     </top>
     <center>
-        <MasterDetailPane detailSide="BOTTOM" showDetailNode="false" fx:id="masterDetail">
-            <masterNode>
-                <Monaco fx:id="monaco" content="select * from genres;" language="sql" />
-            </masterNode>
-            <detailNode>
-                <TableView fx:id="table" />
-            </detailNode>
-        </MasterDetailPane>
+        <TabPane fx:id="tabs"></TabPane>
     </center>
 </BorderPane>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import org.controlsfx.control.MasterDetailPane?>
+<?import ninja.cue.monaco.Monaco?>
+
+<MasterDetailPane xmlns="http://javafx.com/javafx"
+                  xmlns:fx="http://javafx.com/fxml"
+                  fx:controller="ninja.cue.views.MainQueryEditor"
+                  detailSide="BOTTOM"
+                  showDetailNode="false"
+                  fx:id="masterDetail">
+    <masterNode>
+        <Monaco fx:id="monaco" content="select * from genres;" language="sql" />
+    </masterNode>
+    <detailNode>
+        <TableView fx:id="table" />
+    </detailNode>
+</MasterDetailPane>
