@@ -5,7 +5,7 @@
 <?import javafx.scene.input.KeyCodeCombination?>
 
 <?import ninja.cue.monaco.Monaco?>
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import ninja.cue.views.FAIcon?>
 
 <?import org.controlsfx.control.MasterDetailPane?>
 <BorderPane fx:id="mainBorderPane" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ninja.cue.views.MainWindow">
@@ -37,6 +37,12 @@
                             <KeyCodeCombination alt="UP" code="COMMA" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
                         </accelerator>
                     </MenuItem>
+
+                    <MenuItem fx:id="quitMenuItem" onAction="#quitApplication" text="Quit">
+                        <accelerator>
+                            <KeyCodeCombination alt="UP" code="Q" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
+                        </accelerator>
+                    </MenuItem>
                 </Menu>
                 <Menu text="Database">
                     <MenuItem onAction="#executeQuery" text="Execute">
@@ -50,7 +56,7 @@
                 <HBox spacing="5.0">
                     <Button>
                         <graphic>
-                            <FontAwesomeIconView glyphName="SAVE" />
+                           <FAIcon glyphName="SAVE" />
                         </graphic>
                         <tooltip>
                            <Tooltip text="Save" />
@@ -58,7 +64,7 @@
                     </Button>
                     <Button onAction="#executeQuery">
                         <graphic>
-                            <FontAwesomeIconView glyphName="BOLT" />
+                           <FAIcon glyphName="BOLT" />
                         </graphic>
                         <tooltip>
                             <Tooltip text="Execute" />

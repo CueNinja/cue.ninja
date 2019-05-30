@@ -1,28 +1,32 @@
 package ninja.cue
 
+import com.github.thomasnield.rxkotlinfx.toObservable
 import javafx.application.Application
+import javafx.application.Platform
 import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.stage.Stage
 import javafx.scene.control.SeparatorMenuItem
 
-import de.jensd.shichimifx.utils.OS
 import de.codecentric.centerdevice.MenuToolkit
 import ninja.cue.persistance.DataManager
+
+import ninja.cue.util.isMac
 
 import ninja.cue.views.MainWindow
 
 class Main : Application() {
     private val loader = FXMLLoader()
     private val root: Parent = loader.load(
-            MainWindow::class.java.getResource("MainWindow.fxml").openStream())
+            MainWindow::class.java.getResourceAsStream("MainWindow.fxml"))
     private val controller = loader.getController() as MainWindow
     private val scene = Scene(root, 900.0, 500.0)
-    private val css = javaClass.getResource("style.css").toExternalForm()
+    private val commonCss = javaClass.getResource("style.css").toExternalForm()
     private val darkCss = javaClass.getResource("dark.css").toExternalForm()
+    private val dataManager = DataManager.instance
     override fun start(primaryStage: Stage?) {
-        if(OS.isMac()) {
+        if(isMac()) {
             val mainMenu = controller.getMainMenu()
             val toolkit = MenuToolkit.toolkit()
             val appMenu = toolkit.createDefaultApplicationMenu("Cue.Ninja")
@@ -36,15 +40,27 @@ class Main : Application() {
             toolkit.setApplicationMenu(appMenu)
         }
 
-        DataManager.instance.loadConfig()
+        dataManager.loadConfig()
 
         primaryStage?.title = "Cue.Ninja"
-        scene.stylesheets.add(css)
-        if(DataManager.instance.theme.get() == "dark") {
-            scene.stylesheets.add(darkCss)
-        }
+
+        updateStyle(dataManager.theme.value)
+        DataManager.instance.theme.toObservable().subscribe(this::updateStyle)
+
         primaryStage?.scene = scene
         primaryStage?.show()
+
+        primaryStage?.setOnCloseRequest {
+            Platform.exit()
+        }
+    }
+
+    private fun updateStyle(theme: String?) {
+        scene.stylesheets.removeAll()
+        scene.stylesheets.add(commonCss)
+        if(theme == "dark") {
+            scene.stylesheets.add(darkCss)
+        }
     }
 
     companion object {

@@ -1,6 +1,7 @@
 package ninja.cue.views
 
 import javafx.beans.property.SimpleStringProperty
+import javafx.application.Platform;
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
@@ -55,6 +56,10 @@ class MainWindow {
         dialog.dialogPane.buttonTypes.add(ButtonType.OK)
         dialog.dialogPane.buttonTypes.add(ButtonType.CANCEL)
         dialog.show()
+    }
+
+    @FXML fun quitApplication(events: ActionEvent) {
+        Platform.exit()
     }
 
     @FXML fun previousTab(event: ActionEvent) {

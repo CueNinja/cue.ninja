@@ -1,5 +1,7 @@
 package ninja.cue.persistance
 
+import io.reactivex.Observable
+
 import java.nio.file.Files
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections
@@ -10,13 +12,13 @@ import java.nio.file.Paths
 import javax.json.Json
 import com.github.thomasnield.rxkotlinfx.changes
 import com.github.thomasnield.rxkotlinfx.toObservable
-import de.jensd.shichimifx.utils.OS
 import javax.json.JsonObject
 
+import ninja.cue.util.*
+
 class DataManager private constructor() {
-    private val pathSeperator = if(OS.isWindows()) "\\" else "/"
-    private val configDirPath = "${OS.getSystemLocalAppDataPath()}$pathSeperator.cue.ninja"
-    private val jsonFilePath = "$configDirPath${pathSeperator}config.json"
+    private val configDirPath = configPath()
+    private val jsonFilePath = mainConfigFile()
     val connections = FXCollections.observableArrayList<ConnectionDefinition>()
     private var connectionsObserver = connections.changes().subscribe {
         save()
@@ -36,11 +38,10 @@ class DataManager private constructor() {
     }
 
     private fun defaultConfig(): JsonObject {
-        val obj = Json.createObjectBuilder()
-        obj.add("theme", "light")
-        val connections = Json.createArrayBuilder()
-        obj.add("connections", connections)
-        return obj.build()
+        val defaultJsonPath = javaClass.getResource("default.json")
+        return File(defaultJsonPath.toURI()).bufferedReader().use {
+            Json.createReader(it).readObject()
+        }
     }
 
     private fun disableObservers() {
@@ -58,6 +59,7 @@ class DataManager private constructor() {
     }
 
     fun loadConfig() {
+        // TODO the auto magic here is broken!
         if(!Files.exists(Paths.get(configDirPath))) {
             File(configDirPath).mkdir()
         }
@@ -65,9 +67,7 @@ class DataManager private constructor() {
         if(!config.exists()) {
             config.createNewFile()
             config.bufferedWriter().use {
-                Json.createWriter(it).use {
-                    it.writeObject(defaultConfig())
-                }
+                Json.createWriter(it).writeObject(defaultConfig())
             }
         }
         disableObservers()
@@ -92,9 +92,7 @@ class DataManager private constructor() {
         }
         obj.add("connections", connectionsArray)
         File(jsonFilePath).bufferedWriter().use {
-            Json.createWriter(it).use {
-                it.writeObject(obj.build())
-            }
+            Json.createWriter(it).writeObject(obj.build())
         }
     }
 }

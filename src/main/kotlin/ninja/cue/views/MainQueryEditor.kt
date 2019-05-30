@@ -18,15 +18,14 @@ class MainQueryEditor {
     @FXML private var masterDetail = MasterDetailPane()
 
     fun initialize() {
-        updateTheme(DataManager.instance.theme.get())
+        updateTheme(DataManager.instance.theme.value)
         DataManager.instance.theme.toObservable().subscribe(this::updateTheme)
     }
 
     fun updateTheme(value: String?) {
-        val theme = if(value == "dark") {
-            "vs-dark"
-        } else {
-            "vs"
+        val theme = when(value) {
+            "dark" -> "vs-dark"
+            else -> "vs"
         }
         monaco.setTheme(theme)
     }
