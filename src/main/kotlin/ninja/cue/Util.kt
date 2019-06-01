@@ -16,18 +16,24 @@ fun isLinux(): Boolean {
     return osName().contains("nux")
 }
 
+fun home(): String {
+    return System.getProperty("user.home")
+}
+
 fun homePath(): String {
+    val home = home()
     return when {
-        isWindows() -> "${System.getProperty("user.home")}/AppData/Local/"
-        isMac() -> "${System.getProperty("user.home")}/Library/Application Support/"
-        else -> System.getProperty("user.home")
+        isWindows() -> "$home/AppData/Local/"
+        isMac() -> "$home/Library/Application Support/"
+        else -> home
     }
 }
 
 fun configPath(): String {
+    val homePath = homePath()
     return when {
-        isLinux() -> "${homePath()}/.config/cue.ninja/"
-        else -> "${homePath()}/cue.ninja/"
+        isLinux() -> "$homePath/.config/cue.ninja/"
+        else -> "$homePath/cue.ninja/"
     }
 }
 

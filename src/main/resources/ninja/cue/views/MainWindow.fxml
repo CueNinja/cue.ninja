@@ -4,10 +4,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.input.KeyCodeCombination?>
 
-<?import ninja.cue.monaco.Monaco?>
-<?import ninja.cue.views.FAIcon?>
+<?import de.jensd.fx.glyphs.materialicons.MaterialIconView ?>
 
-<?import org.controlsfx.control.MasterDetailPane?>
 <BorderPane fx:id="mainBorderPane" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ninja.cue.views.MainWindow">
     <top>
         <VBox fx:id="vbox">
@@ -56,7 +54,7 @@
                 <HBox spacing="5.0">
                     <Button>
                         <graphic>
-                           <FAIcon glyphName="SAVE" />
+                            <MaterialIconView glyphName="SD_CARD" />
                         </graphic>
                         <tooltip>
                            <Tooltip text="Save" />
@@ -64,7 +62,7 @@
                     </Button>
                     <Button onAction="#executeQuery">
                         <graphic>
-                           <FAIcon glyphName="BOLT" />
+                            <MaterialIconView glyphName="FLASH_ON" />
                         </graphic>
                         <tooltip>
                             <Tooltip text="Execute" />

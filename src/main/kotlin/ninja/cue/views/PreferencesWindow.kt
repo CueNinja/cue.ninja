@@ -17,6 +17,7 @@ import ninja.cue.persistance.DataManager
 import java.util.*
 import javax.xml.crypto.Data
 
+@Suppress("UNUSED_PARAMETER")
 class PreferencesWindow {
     private val connections = DataManager.instance.connections
     @FXML private var rootBorderPane = BorderPane()
@@ -47,8 +48,8 @@ class PreferencesWindow {
         connectionList.selectionModel.selectedItemProperty().addListener(this::connectionChange)
         connectionList.selectionModel.select(0)
 
-        val themeStr = DataManager.instance.theme.get()
-        theme.value = "${themeStr.get(0).toUpperCase()}${themeStr.substring(1)}"
+        val themeStr = DataManager.instance.theme.value
+        theme.value = "${themeStr[0].toUpperCase()}${themeStr.substring(1)}"
     }
 
     private class ConnectionDefinitionListCell : ListCell<ConnectionDefinition>() {
@@ -154,6 +155,10 @@ class PreferencesWindow {
             }
             connections.set(connectionList.selectionModel.selectedIndex, connection)
         }
+    }
+
+    @FXML fun testItem(event: ActionEvent) {
+
     }
 
     @FXML fun addItem(event: ActionEvent) {

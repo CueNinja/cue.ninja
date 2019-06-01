@@ -4,6 +4,7 @@
 <?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -20,8 +21,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import org.controlsfx.control.ToggleSwitch?>
-
-<?import ninja.cue.views.FAIcon?>
+<?import de.jensd.fx.glyphs.materialicons.MaterialIconView ?>
 
 <TabPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ninja.cue.views.PreferencesWindow">
    <tabs>
@@ -64,7 +64,7 @@
                        <HBox spacing="5.0">
                            <Button onAction="#addItem">
                                <graphic>
-                                  <FAIcon glyphName="PLUS" />
+                                  <MaterialIconView glyphName="LIBRARY_ADD" />
                                </graphic>
                                <tooltip>
                                    <Tooltip text="Add" />
@@ -72,10 +72,10 @@
                            </Button>
                            <Button onAction="#removeItem">
                                <graphic>
-                                  <FAIcon glyphName="MINUS" />
+                                  <MaterialIconView glyphName="DELETE" />
                                </graphic>
                                <tooltip>
-                                   <Tooltip text="Remove" />
+                                   <Tooltip text="Delete" />
                                </tooltip>
                            </Button>
                         <padding>
@@ -122,7 +122,7 @@
                                         <TextField fx:id="tunnelKeyPath" disable="true" HBox.hgrow="ALWAYS" />
                                         <Button fx:id="tunnelKeyPathButton" disable="true" onAction="#tunnelFileOpen">
                                             <graphic>
-                                               <FAIcon glyphName="FOLDER_OPEN" />
+                                               <MaterialIconView glyphName="FOLDER_OPEN" />
                                             </graphic>
                                             <tooltip>
                                                 <Tooltip text="Open" />
@@ -145,15 +145,28 @@
                               </GridPane>
                           </content>
                         </TitledPane>
-                        <Button onAction="#saveItems" GridPane.columnIndex="0" GridPane.rowIndex="4">
-                            <text>Save</text>
-                            <graphic>
-                               <FAIcon glyphName="SAVE" />
-                            </graphic>
-                            <tooltip>
-                                <Tooltip text="Save" />
-                            </tooltip>
-                        </Button>
+                        <ButtonBar GridPane.rowIndex="4">
+                            <buttons>
+                                <Button onAction="#saveItems" GridPane.columnIndex="0" GridPane.rowIndex="4">
+                                    <text>Save</text>
+                                    <graphic>
+                                       <MaterialIconView glyphName="SD_CARD" />
+                                    </graphic>
+                                    <tooltip>
+                                        <Tooltip text="Save" />
+                                    </tooltip>
+                                </Button>
+                                <Button onAction="#testItem" GridPane.columnIndex="0" GridPane.rowIndex="4">
+                                    <text>Test</text>
+                                    <graphic>
+                                        <MaterialIconView glyphName="FLASH_ON" />
+                                    </graphic>
+                                    <tooltip>
+                                        <Tooltip text="Test" />
+                                    </tooltip>
+                                </Button>
+                            </buttons>
+                        </ButtonBar>
                      </children>
                      <columnConstraints>
                         <ColumnConstraints maxWidth="120.0" minWidth="100.0" prefWidth="120.0" />

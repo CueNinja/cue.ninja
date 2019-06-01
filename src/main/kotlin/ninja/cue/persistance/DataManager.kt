@@ -59,14 +59,13 @@ class DataManager private constructor() {
     }
 
     fun loadConfig() {
-        // TODO the auto magic here is broken!
-        if(!Files.exists(Paths.get(configDirPath))) {
+        if(Files.notExists(Paths.get(configDirPath))) {
             File(configDirPath).mkdir()
         }
-        val config = File(jsonFilePath)
-        if(!config.exists()) {
-            config.createNewFile()
-            config.bufferedWriter().use {
+        val configFile = File(jsonFilePath)
+        if(!configFile.exists()) {
+            configFile.createNewFile()
+            configFile.bufferedWriter().use {
                 Json.createWriter(it).writeObject(defaultConfig())
             }
         }
@@ -76,6 +75,7 @@ class DataManager private constructor() {
                 it.readObject()
             }
         }
+        // TODO the format of the obj file should be verified
         theme.value = obj.getString("theme")
         for(connection in obj.getJsonArray("connections")) {
             connections.add(ConnectionDefinition.fromJson(connection))

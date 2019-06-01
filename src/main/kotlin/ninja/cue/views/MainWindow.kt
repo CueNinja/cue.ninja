@@ -1,20 +1,13 @@
 package ninja.cue.views
 
-import javafx.beans.property.SimpleStringProperty
 import javafx.application.Platform;
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
 import javafx.scene.control.*
 import javafx.scene.layout.*
-import javafx.util.Callback
 
-import ninja.cue.monaco.Monaco
-import org.controlsfx.control.MasterDetailPane
-
-import ninja.cue.jdbc.Query
-
-
+@Suppress("UNUSED_PARAMETER")
 class MainWindow {
     @FXML private var mainBorderPane = BorderPane()
     @FXML private var mainMenu = MenuBar()
