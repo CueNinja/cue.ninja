@@ -1,20 +1,19 @@
 package ninja.cue.jdbc
 
-import javax.json.Json
-import javax.json.JsonObject
-import javax.json.JsonValue
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.treeToValue
 
-class ConnectionDefinition(name: String, uri: String, tunnelDefinition: TunnelDefinition? = null) {
-    var name = name
-    var uri = uri
-    var tunnelDefinition = tunnelDefinition
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+class ConnectionDefinition(
+        @JsonProperty var name: String,
+        @JsonProperty var uri: String,
+        @JsonProperty("tunnel") var tunnelDefinition: TunnelDefinition? = null) {
 
-    fun toJson(): JsonObject {
-        val obj = Json.createObjectBuilder()
-        obj.add("name", name)
-        obj.add("uri", uri)
-        obj.add("tunnel", if(tunnelDefinition == null) JsonValue.NULL else tunnelDefinition?.toJson() )
-        return obj.build()
+    fun toJson(): JsonNode {
+        return jacksonObjectMapper().valueToTree(this)
     }
 
     override fun toString(): String {
@@ -23,16 +22,8 @@ class ConnectionDefinition(name: String, uri: String, tunnelDefinition: TunnelDe
 
     companion object {
         @JvmStatic
-        fun fromJson(obj: JsonObject): ConnectionDefinition {
-            return ConnectionDefinition(
-                    obj.getString("name"),
-                    obj.getString("uri"),
-                    if(!obj.isNull("tunnel")) TunnelDefinition.fromJson(obj.getJsonObject("tunnel")) else null
-            )
-        }
-
-        fun fromJson(obj: JsonValue): ConnectionDefinition {
-            return fromJson(obj.asJsonObject())
+        fun fromJson(obj: JsonNode): ConnectionDefinition {
+            return jacksonObjectMapper().treeToValue(obj)
         }
     }
 }

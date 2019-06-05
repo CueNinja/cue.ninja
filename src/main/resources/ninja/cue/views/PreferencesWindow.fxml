@@ -35,13 +35,13 @@
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
                     <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="5.0" prefHeight="5.0" vgrow="NEVER" />
+                      <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="NEVER" />
+                      <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="NEVER" />
                     </rowConstraints>
                      <children>
-                        <Label text="Theme" />
-                        <ChoiceBox fx:id="theme" onAction="#themeChange" prefWidth="150.0" value="Light" GridPane.columnIndex="1">
+                        <Label text="Theme" GridPane.rowIndex="1" />
+                        <ChoiceBox fx:id="theme" onAction="#themeChange" prefWidth="150.0" value="Light" GridPane.rowIndex="1" GridPane.columnIndex="1">
                             <items>
                                 <FXCollections fx:factory="observableArrayList">
                                     <String fx:value="Light" />
@@ -49,6 +49,8 @@
                                 </FXCollections>
                             </items>
                         </ChoiceBox>
+                         <Label text="Font" GridPane.rowIndex="2" />
+                        <ChoiceBox fx:id="fontFamily" onAction="#themeChange" prefWidth="150.0" GridPane.rowIndex="2" GridPane.columnIndex="1"></ChoiceBox>
                      </children>
                   </GridPane>
                </center>

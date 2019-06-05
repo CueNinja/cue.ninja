@@ -1,25 +1,30 @@
 package ninja.cue.persistance
 
-import io.reactivex.Observable
-
 import java.nio.file.Files
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections
-import ninja.cue.jdbc.ConnectionDefinition
 import java.io.File
 import java.nio.file.Paths
 
-import javax.json.Json
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.databind.JsonNode
 import com.github.thomasnield.rxkotlinfx.changes
 import com.github.thomasnield.rxkotlinfx.toObservable
-import javax.json.JsonObject
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import javafx.collections.ObservableList
+import com.networknt.schema.JsonSchemaFactory
+import com.networknt.schema.JsonSchema
 
+import ninja.cue.jdbc.ConnectionDefinition
 import ninja.cue.util.*
 
 class DataManager private constructor() {
+    private val mapper = jacksonObjectMapper()
     private val configDirPath = configPath()
     private val jsonFilePath = mainConfigFile()
-    val connections = FXCollections.observableArrayList<ConnectionDefinition>()
+    val connections: ObservableList<ConnectionDefinition> =
+            FXCollections.observableArrayList<ConnectionDefinition>()
     private var connectionsObserver = connections.changes().subscribe {
         save()
     }
@@ -28,6 +33,11 @@ class DataManager private constructor() {
         save()
     }
 
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private class Configuration(
+            @JsonProperty val theme: String,
+            @JsonProperty connections: List<ConnectionDefinition>
+    )
 
     private object Holder {
         val localInstance = DataManager()
@@ -37,10 +47,10 @@ class DataManager private constructor() {
         val instance: DataManager by lazy { Holder.localInstance }
     }
 
-    private fun defaultConfig(): JsonObject {
+    private fun defaultConfig(): JsonNode {
         val defaultJsonPath = javaClass.getResource("default.json")
         return File(defaultJsonPath.toURI()).bufferedReader().use {
-            Json.createReader(it).readObject()
+            mapper.readTree(it)
         }
     }
 
@@ -58,6 +68,18 @@ class DataManager private constructor() {
         }
     }
 
+    private fun loadSchema(): JsonSchema {
+        val factory = JsonSchemaFactory.getInstance()
+        val it = File(javaClass.getResource("schema.json").toURI()).inputStream()
+        return factory.getSchema(it)
+    }
+
+    private fun valid(node: JsonNode): Boolean {
+        val schema = loadSchema()
+        val errors = schema.validate(node)
+        return errors.size == 0
+    }
+
     fun loadConfig() {
         if(Files.notExists(Paths.get(configDirPath))) {
             File(configDirPath).mkdir()
@@ -66,33 +88,31 @@ class DataManager private constructor() {
         if(!configFile.exists()) {
             configFile.createNewFile()
             configFile.bufferedWriter().use {
-                Json.createWriter(it).writeObject(defaultConfig())
+                mapper.writeValue(it, defaultConfig())
             }
         }
         disableObservers()
-        val obj = File(jsonFilePath).bufferedReader().use {
-            Json.createReader(it).use {
-                it.readObject()
-            }
+        var obj = File(jsonFilePath).bufferedReader().use {
+            mapper.readTree(it)
         }
-        // TODO the format of the obj file should be verified
-        theme.value = obj.getString("theme")
-        for(connection in obj.getJsonArray("connections")) {
+        val valid = valid(obj)
+        if(!valid) {
+           obj = defaultConfig()
+        }
+        theme.value = obj.get("theme").asText()
+        for(connection in obj.get("connections")) {
             connections.add(ConnectionDefinition.fromJson(connection))
+        }
+        if(!valid) {
+            save()
         }
         turnOnObservers()
     }
 
-    fun save() {
-        val obj = Json.createObjectBuilder()
-        obj.add("theme", theme.value)
-        val connectionsArray = Json.createArrayBuilder()
-        for(connection in connections) {
-            connectionsArray.add(connection.toJson())
-        }
-        obj.add("connections", connectionsArray)
+    private fun save() {
+        val json = mapper.writeValueAsString(Configuration(theme.value, connections))
         File(jsonFilePath).bufferedWriter().use {
-            Json.createWriter(it).writeObject(obj.build())
+            it.write(json)
         }
     }
 }

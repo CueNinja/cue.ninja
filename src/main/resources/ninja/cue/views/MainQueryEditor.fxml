@@ -12,7 +12,7 @@
                   showDetailNode="false"
                   fx:id="masterDetail">
     <masterNode>
-        <CodeArea editable="true"  />
+        <CodeArea fx:id="editor" editable="true"  />
     </masterNode>
     <detailNode>
         <TableView fx:id="table" />

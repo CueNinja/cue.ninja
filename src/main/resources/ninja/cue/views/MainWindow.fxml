@@ -52,7 +52,7 @@
             </MenuBar>
             <ToolBar>
                 <HBox spacing="5.0">
-                    <Button>
+                    <Button onAction="#saveCurrentTab">
                         <graphic>
                             <MaterialIconView glyphName="SD_CARD" />
                         </graphic>

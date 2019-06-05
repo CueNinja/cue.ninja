@@ -5,7 +5,12 @@ import javafx.beans.property.SimpleStringProperty
 import javafx.fxml.FXML
 import javafx.scene.control.TableColumn
 import javafx.scene.control.TableView
+import javafx.scene.layout.Background
+import javafx.scene.layout.BackgroundFill
+import javafx.scene.paint.Color
 import javafx.util.Callback
+
+import javafx.geometry.Insets
 
 import org.fxmisc.richtext.CodeArea
 import org.controlsfx.control.MasterDetailPane
@@ -20,16 +25,29 @@ class MainQueryEditor {
 
     fun initialize() {
         //TODO Set theme on the CodeArea
-//        updateTheme(DataManager.instance.theme.value)
-//        DataManager.instance.theme.toObservable().subscribe(this::updateTheme)
+        updateTheme(DataManager.instance.theme.value)
+        DataManager.instance.theme.toObservable().subscribe(this::updateTheme)
+
+        // Nodes.addInputMap(area, consume(keyPressed(S, CONTROL_DOWN), event -&gt; save()));
+        editor.padding = Insets(5.0)
     }
 
-//    fun updateTheme(value: String?) {
-//        val theme = when(value) {
-//            "dark" -> "vs-dark"
-//            else -> "vs"
+    private fun updateTheme(value: String?) {
+        if(value == "light" ) {
+            editor.background = Background(BackgroundFill(Color.WHITE, null, null))
+        } else {
+            editor.background = Background(BackgroundFill(Color.web("454545"), null, null))
+        }
+    }
+
+    fun formatSql() {
+//        val statements = editor.text.split(";").map {
+//            val parser = SqlParser(SqlParserOptions)
+//            val stmt = parser.createStatement(it, ParsingOptions())
+//            SqlFormatter.formatSql(stmt, null)
 //        }
-//    }
+//        editor.setText();
+    }
 
     fun executeQuery() {
         val queryText = editor.text

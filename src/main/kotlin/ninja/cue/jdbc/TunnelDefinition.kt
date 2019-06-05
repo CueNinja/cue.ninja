@@ -1,40 +1,31 @@
 package ninja.cue.jdbc
 
-import javax.json.Json
-import javax.json.JsonObject
-import javax.json.JsonValue
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.treeToValue
 
-class TunnelDefinition(host: String, username: String, password: String? = null, port: Int = 22, keyFile: String? = null) {
-    var host = host
-    var port = port
-    var username = username
-    var password = password
-    var keyFile = keyFile
+@JsonInclude
+class TunnelDefinition(
+        @JsonProperty var host: String,
+        @JsonProperty var username: String,
+        @JsonProperty var password: String? = null,
+        @JsonProperty var port: Int = 22,
+        @JsonProperty var keyFile: String? = null) {
 
-    fun toJson(): JsonObject {
-        val obj = Json.createObjectBuilder()
-        obj.add("host", host)
-        obj.add("port", port)
-        obj.add("username", username)
-        obj.add("password", password)
-        if(keyFile == null) {
-            obj.add("keyFile", JsonValue.NULL)
-        } else {
-            obj.add("keyFile", keyFile)
-        }
-        return obj.build()
+    fun toJson(): JsonNode {
+        return jacksonObjectMapper().valueToTree(this)
+    }
+
+    override fun toString(): String {
+        return "$username@$host:$port"
     }
 
     companion object {
         @JvmStatic
-        fun fromJson(obj: JsonObject): TunnelDefinition {
-            return TunnelDefinition(
-                    obj.getString("host"),
-                    obj.getString("username"),
-                    obj.getString("password"),
-                    obj.getInt("port"),
-                    if(!obj.isNull("keyFile")) obj.getString("keyFile") else null
-            )
+        fun fromJson(obj: JsonNode): TunnelDefinition {
+            return jacksonObjectMapper().treeToValue(obj)
         }
     }
 }

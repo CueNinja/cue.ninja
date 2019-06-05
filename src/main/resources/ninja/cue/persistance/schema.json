@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "theme": {
+      "type": "string"
+    },
+    "connections": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "uri": {
+              "type": "string"
+            },
+            "tunnel": {
+              "type": "object",
+              "properties": {
+                "host": {
+                  "type": "string"
+                },
+                "username": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "port": {
+                  "type": "integer"
+                },
+                "keyFile": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "host"
+              ]
+            }
+          },
+          "required": [
+            "name",
+            "uri"
+          ]
+        }
+      ]
+    }
+  },
+  "required": [
+    "theme",
+    "connections"
+  ]
+}

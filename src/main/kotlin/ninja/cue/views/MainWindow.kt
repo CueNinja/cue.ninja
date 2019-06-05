@@ -61,6 +61,10 @@ class MainWindow {
     @FXML fun nextTab(event: ActionEvent) {
     }
 
+    @FXML fun saveCurrentTab(event: ActionEvent) {
+
+    }
+
     private fun buildTab(): Tab {
         val tab = Tab()
         tab.text = "Query Localhost"

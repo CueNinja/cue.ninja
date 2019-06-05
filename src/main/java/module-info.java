@@ -1,5 +1,4 @@
 module ninja.cue {
-    requires java.json;
     requires java.sql;
     requires java.sql.rowset;
     requires java.xml.crypto;
@@ -18,6 +17,13 @@ module ninja.cue {
     requires rxjavafx;
     requires flowless;
     requires wellbehavedfx;
+    requires richtextfx;
+    requires com.fasterxml.jackson.module.kotlin;
+    requires com.fasterxml.jackson.databind;
+    requires com.fasterxml.jackson.annotation;
+    requires com.fasterxml.jackson.core;
+    requires json.schema.validator;
+    requires org.antlr.antlr4.runtime;
 
     exports ninja.cue;
     opens ninja.cue.views;

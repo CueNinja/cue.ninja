@@ -1,8 +1,12 @@
 package ninja.cue.views
 
+import javafx.beans.Observable
 import javafx.beans.value.ObservableValue
+import javafx.collections.FXCollections
+import javafx.collections.ObservableList
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
+import javafx.scene.canvas.GraphicsContext
 import javafx.scene.control.*
 import javafx.scene.layout.BorderPane
 import javafx.stage.FileChooser
@@ -39,6 +43,9 @@ class PreferencesWindow {
 
     @FXML private var theme = ChoiceBox<String>()
 
+    private val fonts = javafx.scene.text.Font.getFamilies()
+    @FXML private var fontFamily = ChoiceBox<String>()
+
     fun initialize() {
         connectionList.items = connections
 
@@ -50,6 +57,13 @@ class PreferencesWindow {
 
         val themeStr = DataManager.instance.theme.value
         theme.value = "${themeStr[0].toUpperCase()}${themeStr.substring(1)}"
+
+        var fontsList = FXCollections.observableArrayList<String>("one")
+        for(font in fonts) {
+            fontsList.add(font)
+        }
+
+        fontFamily.items = fontsList
     }
 
     private class ConnectionDefinitionListCell : ListCell<ConnectionDefinition>() {
